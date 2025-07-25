@@ -7,25 +7,24 @@ require('dotenv').config();
 
 const app = express();
 
-
+// --- THE FINAL FIX IS HERE ---
+// We are adding your specific Netlify URL to the list of allowed sites.
 const allowedOrigins = [
-  'https://hillsideappointment.netlify.app/', 
-  'http://localhost:5173' 
+  'https://hillsideappointment.netlify.app', // Your actual live Netlify URL
+  'http://localhost:5173'                    // Kept for local development
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'));
     }
-    return callback(null, true);
   }
 };
 
-// Use the new CORS options
+// Use the new, corrected CORS options
 app.use(cors(corsOptions));
 // --- END OF THE FIX ---
 
@@ -38,9 +37,6 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS,
   },
 });
-
-// ... the rest of your server.js code remains exactly the same ...
-// (The app.post('/api/appointments', ...) function does not need to change)
 
 function formatDateTimeForGoogleCalendar(dateStr, timeStr) {
   const date = new Date(dateStr);
@@ -104,7 +100,7 @@ app.post('/api/appointments', async (req, res) => {
 
   const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`Appointment with ${doctor}`)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(`Patient: ${name}\nClinic: ${clinicNames[clinic]}`)}&location=${encodeURIComponent(location)}`;
   
-  const logoUrl = 'https://hillsideappointment.netlify.app/hsmg.png';
+  const logoUrl = 'https://i.ibb.co/jZTMd38/logs.png';
 
   const emailHtml = `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #333; line-height: 1.6;">
