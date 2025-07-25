@@ -100,7 +100,7 @@ app.post('/api/appointments', async (req, res) => {
 
   const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`Appointment with ${doctor}`)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(`Patient: ${name}\nClinic: ${clinicNames[clinic]}`)}&location=${encodeURIComponent(location)}`;
   
-  const logoUrl = 'https://i.ibb.co/jZTMd38/logs.png';
+  const logoUrl = 'https://hillsideappointment.netlify.app/hsmg.png';
 
   const emailHtml = `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #333; line-height: 1.6;">
