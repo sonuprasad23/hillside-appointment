@@ -1,4 +1,3 @@
-// src/components/AppointmentForm.tsx
 import React, { useState, useEffect } from 'react';
 import { User, Calendar, Phone, Mail, MapPin, UserCircle, Clock } from 'lucide-react';
 import { Button } from './Button';
@@ -34,7 +33,6 @@ const AppointmentForm = ({ clinic, initialData, onSubmit, onBack }: AppointmentF
   const [doctors, setDoctors] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
 
   const clinicNames = {
     universal: 'Universal Section Clinics',
@@ -81,11 +79,14 @@ const AppointmentForm = ({ clinic, initialData, onSubmit, onBack }: AppointmentF
     const submissionData = {
       ...formData,
       clinic: clinic, // Add clinic type to the submission
-      location: `${fullLocationData?.name} - ${fullLocationData?.address}`, // Send full address
+      location: `${fullLocationData?.name} - ${fullLocationData?.address}`,
     };
     
     try {
-      const response = await fetch('http://localhost:4000/api/appointments', {
+      // Use the environment variable for the live API URL, with a fallback for local development
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/appointments';
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -94,7 +95,8 @@ const AppointmentForm = ({ clinic, initialData, onSubmit, onBack }: AppointmentF
       });
 
       if (!response.ok) {
-        throw new Error('There was a problem submitting your appointment. Please try again.');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to schedule appointment. Please try again.');
       }
 
       // If successful, proceed to the confirmation screen
@@ -227,7 +229,7 @@ const AppointmentForm = ({ clinic, initialData, onSubmit, onBack }: AppointmentF
                     </div>
                   </div>
                 </div>
-                {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
+                {error && <p className="text-red-500 text-sm mt-4 text-center">{error}</p>}
                 <div className="flex items-center justify-between mt-8">
                   <button type="button" onClick={() => setStep(1)} className="text-blue-600 hover:text-blue-800" disabled={isSubmitting}>
                     ← Back

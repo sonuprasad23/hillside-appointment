@@ -6,7 +6,30 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const app = express();
-app.use(cors());
+
+// --- THE FIX IS HERE ---
+// Define which domains are allowed to access this server
+const allowedOrigins = [
+  'https://your-netlify-site-name.netlify.app', // Replace with your actual Netlify URL
+  'http://localhost:5173' // Keep this for local development
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
+};
+
+// Use the new CORS options
+app.use(cors(corsOptions));
+// --- END OF THE FIX ---
+
 app.use(express.json());
 
 const transporter = nodemailer.createTransport({
@@ -16,6 +39,9 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS,
   },
 });
+
+// ... the rest of your server.js code remains exactly the same ...
+// (The app.post('/api/appointments', ...) function does not need to change)
 
 function formatDateTimeForGoogleCalendar(dateStr, timeStr) {
   const date = new Date(dateStr);
@@ -41,9 +67,7 @@ app.post('/api/appointments', async (req, res) => {
     return res.status(400).json({ message: 'Missing required form data.' });
   }
 
-  // --- THE FIX IS ON THIS LINE ---
-  // Removed the "backend/" prefix. The file will now be created in the current directory.
-  const filename = `${clinic}_appointments.csv`; 
+  const filename = `${clinic}_appointments.csv`;
 
   const csvWriter = createObjectCsvWriter({
     path: filename,
@@ -70,7 +94,6 @@ app.post('/api/appointments', async (req, res) => {
     return res.status(500).json({ message: 'Failed to save appointment data.' });
   }
 
-  // --- Email Sending Logic (No changes here) ---
   const clinicNames = {
     universal: 'Universal Section Clinics',
     womens: "Women's Wellness of SA",
