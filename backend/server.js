@@ -7,11 +7,10 @@ require('dotenv').config();
 
 const app = express();
 
-// --- THE FIX IS HERE ---
-// Define which domains are allowed to access this server
+
 const allowedOrigins = [
-  'https://your-netlify-site-name.netlify.app', // Replace with your actual Netlify URL
-  'http://localhost:5173' // Keep this for local development
+  'https://hillsideappointment.netlify.app/', 
+  'http://localhost:5173' 
 ];
 
 const corsOptions = {
