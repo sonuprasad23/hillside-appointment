@@ -1,0 +1,35 @@
+/* PLEASE NOTE: THESE TAILWIND IMPORTS SHOULD NEVER BE DELETED */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+/* src/index.css */
+
+/* ... your existing tailwind imports ... */
+
+@media print {
+  /* Hide everything by default when printing */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Make the appointment card and its content visible */
+  #appointment-card-container, #appointment-card-container * {
+    visibility: visible;
+  }
+
+  /* Position the card at the top of the print page */
+  #appointment-card-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Ensure the card itself has no shadow or extra borders for print */
+  #appointment-card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+  }
+}
