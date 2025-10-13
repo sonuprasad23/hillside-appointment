@@ -13,7 +13,7 @@
   status = 200
   
 [[headers]]
-  for = "/tiktok*.txt"
+  for = "/tiktokA6iWWeqQTXrU3EgIax9vLaTzOAKkN2w5.txt"
   [headers.values]
     Content-Type = "text/plain; charset=utf-8"
     Cache-Control = "no-cache"
