@@ -8,12 +8,12 @@
   NODE_VERSION = "18"
 
 [[redirects]]
+  from = "/tiktokA6iWWeqQTXrU3EgIax9vLaTzOAKkN2w5.txt"
+  to = "/tiktokA6iWWeqQTXrU3EgIax9vLaTzOAKkN2w5.txt"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  
-[[headers]]
-  for = "/tiktokA6iWWeqQTXrU3EgIax9vLaTzOAKkN2w5.txt"
-  [headers.values]
-    Content-Type = "text/plain; charset=utf-8"
-    Cache-Control = "no-cache"
