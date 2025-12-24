@@ -1,4 +1,3 @@
-// backend/server.js
 const express = require('express');
 const cors = require('cors');
 const { createObjectCsvWriter } = require('csv-writer');
@@ -7,11 +6,9 @@ require('dotenv').config();
 
 const app = express();
 
-// --- THE FINAL FIX IS HERE ---
-// We are adding your specific Netlify URL to the list of allowed sites.
 const allowedOrigins = [
-  'https://hillsideappointment.netlify.app', // Your actual live Netlify URL
-  'http://localhost:5173'                    // Kept for local development
+  'https://hillsideappointment.netlify.app', 
+  'http://localhost:5173'                    
 ];
 
 const corsOptions = {
@@ -24,9 +21,7 @@ const corsOptions = {
   }
 };
 
-// Use the new, corrected CORS options
 app.use(cors(corsOptions));
-// --- END OF THE FIX ---
 
 app.use(express.json());
 
