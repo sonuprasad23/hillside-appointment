@@ -34,3 +34,4 @@ Follow these steps to get the development environment running.
 -   `npm run build`: Bundles the app for production.
 -   `npm run lint`: Lints the project files for errors.
 -   `npm run preview`: Serves the production build locally.
+
